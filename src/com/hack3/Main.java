@@ -11,6 +11,6 @@ public class Main {
         String s = in.nextLine();
         System.out.println(s);
         System.out.print("hello world");
+        System.out.println("Hello Again");
     }
-
 }
