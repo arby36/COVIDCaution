@@ -10,5 +10,7 @@ public class Main {
         System.out.println("Print your message boi: ");
         String s = in.nextLine();
         System.out.println(s);
+        System.out.print("hello world");
     }
+
 }
