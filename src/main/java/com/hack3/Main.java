@@ -5,13 +5,16 @@ import java.util.*;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.*;
+import com.google.firebase.database.*;
 
 public class Main {
 
     public static class databaseTest {
-        public String user;
-        public String databaseTest(String username) {
-            user = username;
+        public String firstname;
+        public String lastname;
+        public void databaseTest(String name, String surname) {
+            firstname = name;
+            lastname = surname;
         };
     }
 
@@ -30,31 +33,136 @@ public class Main {
         //End database initialization
         //Database Test//
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("server/saving-data/fireblog/posts");
+        DatabaseReference ref = database.getReference("users/itejas");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                databaseTest user = dataSnapshot.getValue(databaseTest.class);
+                System.out.println(user.firstname + " " + user.lastname);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
         //End Database Test//
 
 
-
-
-
-        Scanner in = new Scanner(new File ("main.in"));
+        Scanner in = new Scanner(new File ("src/main/java/com/hack3/main.in"));
 
         String timePositiveCheckedIn = in.next();
         String timeYouWereThere = in.next();
+        String dayPositive = in.next();
+        String dayYou = in.next();
         String location = in.next();
 
         in.close();
+
+        int dayPositiveInt = 0;
+        int dayYouInt = 0;
+
+        switch(dayPositive) {
+            case "Sunday":
+                dayPositiveInt = 1;
+                break;
+            case "Monday":
+                dayPositiveInt = 2;
+                break;
+            case "Tuesday":
+                dayPositiveInt = 3;
+                break;
+            case "Wednesday":
+                dayPositiveInt = 4;
+                break;
+            case "Thursday":
+                dayPositiveInt = 5;
+                break;
+            case "Friday":
+                dayPositiveInt = 6;
+                break;
+            case "Saturday":
+                dayPositiveInt = 7;
+                break;
+        }
+
+        switch(dayYou) {
+            case "Sunday":
+                dayYouInt = 1;
+                break;
+            case "Monday":
+                dayYouInt = 2;
+                break;
+            case "Tuesday":
+                dayYouInt = 3;
+                break;
+            case "Wednesday":
+                dayYouInt = 4;
+                break;
+            case "Thursday":
+                dayYouInt = 5;
+                break;
+            case "Friday":
+                dayYouInt = 6;
+                break;
+            case "Saturday":
+                dayYouInt = 7;
+                break;
+        }
 
         String result = "";
         int timePositiveCheckedInInteger = toMinutes(timePositiveCheckedIn);
         int timeYouWereThereInteger = toMinutes(timeYouWereThere);
 
-        if (timePositiveCheckedInInteger == timeYouWereThereInteger) {
-            result = "You are in danger of catching COVID-19. You were at " + location + " at the same time as someone " +
-                    "who tested positive for the virus. For your information, the time was " + timeYouWereThere + ". " +
-                    "Please seek help immediately. If this is not possible, please self-quarantine.";
+        if (Math.abs(dayYouInt - dayPositiveInt) == 1) {
+            timeYouWereThereInteger += 1440;
+        } else if (Math.abs(dayYouInt - dayPositiveInt) == 2) {
+            timeYouWereThereInteger += (1440 * 2);
+        } else if (Math.abs(dayYouInt - dayPositiveInt) == 3) {
+            timeYouWereThereInteger += (1440 * 3);
+        } else if (Math.abs(dayYouInt - dayPositiveInt) == 4) {
+            timeYouWereThereInteger += (1440 * 4);
+        } else if (Math.abs(dayYouInt - dayPositiveInt) == 5) {
+            timeYouWereThereInteger += (1440 * 5);
+        } else if (Math.abs(dayYouInt - dayPositiveInt) == 6) {
+            timeYouWereThereInteger += (1440 * 6);
         }
 
+        if (timeYouWereThereInteger >= timePositiveCheckedInInteger &&
+                timeYouWereThereInteger <= (1440 + timePositiveCheckedInInteger)) {
+
+            result = "You are at EXTREMELY HIGH RISK of having COVID-19. You were at " + location + " within 1 day " +
+                    "of someone " +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    " Please seek help immediately. If this is not possible, please self-quarantine.";
+
+        } else if (timeYouWereThereInteger > (1440 + timePositiveCheckedInInteger) &&
+                timeYouWereThereInteger <= (2880 + timePositiveCheckedInInteger)) {
+
+            result = "You are at HIGH RISK of having COVID-19. You were at " + location + " within 1-2 days " +
+                    "of someone " +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    " Please seek help immediately. If this is not possible, please self-quarantine.";
+
+        } else if (timeYouWereThereInteger > (2880 + timePositiveCheckedInInteger) &&
+                timeYouWereThereInteger <= (4320 + timePositiveCheckedInInteger)) {
+
+            result = "You are at MEDIUM RISK of having COVID-19. You were at " + location + " within 2-3 days " +
+                    "of someone " +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    " Please seek help immediately. If this is not possible, please self-quarantine.";
+
+        } else if (timeYouWereThereInteger > (4320 + timePositiveCheckedInInteger) &&
+                timeYouWereThereInteger <= (10080 + timePositiveCheckedInInteger)) {
+
+            result = "You are at LOW RISK of having COVID-19. You were at " + location + " within 3-7 " +
+                    "as someone " +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    " Please seek help immediately. If this is not possible, please self-quarantine.";
+
+        }
 
         PrintWriter out = new PrintWriter(new File("main.out"));
         System.out.println(result);
