@@ -8,6 +8,13 @@ import com.google.firebase.*;
 
 public class Main {
 
+    public static class databaseTest {
+        public String user;
+        public String databaseTest(String username) {
+            user = username;
+        };
+    }
+
     public static void main(String[] args) throws IOException {
         System.out.println("Hello World!");
         //Database Initialization
@@ -21,7 +28,10 @@ public class Main {
 
         FirebaseApp.initializeApp(options);
         //End database initialization
-
+        //Database Test//
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("server/saving-data/fireblog/posts");
+        //End Database Test//
 
 
 
