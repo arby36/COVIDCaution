@@ -3,12 +3,16 @@ package com.hack3;
 import java.io.*;
 import java.util.*;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.*;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Hello World!");
+        //Database Initialization
         FileInputStream serviceAccount =
-                new FileInputStream("path/to/serviceAccountKey.json");
+                new FileInputStream("key/covidcaution-firebase-adminsdk-e9xkl-8bf10b191d.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -16,6 +20,12 @@ public class Main {
                 .build();
 
         FirebaseApp.initializeApp(options);
+        //End database initialization
+
+
+
+
+
 
         Scanner in = new Scanner(new File ("main.in"));
 
