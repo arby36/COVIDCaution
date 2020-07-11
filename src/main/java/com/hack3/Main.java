@@ -46,6 +46,7 @@ public class Main {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         //End Database Test//
@@ -135,7 +136,8 @@ public class Main {
 
             result = "You are at EXTREMELY HIGH RISK of having COVID-19. You were at " + location + " within 1 day " +
                     "of someone " +
-                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere +
+                    "and the day was " + dayYou + "." +
                     " Please seek help immediately. If this is not possible, please self-quarantine.";
 
         } else if (timeYouWereThereInteger > (1440 + timePositiveCheckedInInteger) &&
@@ -143,7 +145,8 @@ public class Main {
 
             result = "You are at HIGH RISK of having COVID-19. You were at " + location + " within 1-2 days " +
                     "of someone " +
-                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere +
+                    "and the day was " + dayYou + "." +
                     " Please seek help immediately. If this is not possible, please self-quarantine.";
 
         } else if (timeYouWereThereInteger > (2880 + timePositiveCheckedInInteger) &&
@@ -151,7 +154,8 @@ public class Main {
 
             result = "You are at MEDIUM RISK of having COVID-19. You were at " + location + " within 2-3 days " +
                     "of someone " +
-                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere +
+                    "and the day was " + dayYou + "." +
                     " Please seek help immediately. If this is not possible, please self-quarantine.";
 
         } else if (timeYouWereThereInteger > (4320 + timePositiveCheckedInInteger) &&
@@ -159,7 +163,8 @@ public class Main {
 
             result = "You are at LOW RISK of having COVID-19. You were at " + location + " within 3-7 " +
                     "as someone " +
-                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere + "." +
+                    "who tested positive for the virus." + "\n" + "For your information, the time was " + timeYouWereThere +
+                    "and the day was " + dayYou + "." +
                     " Please seek help immediately. If this is not possible, please self-quarantine.";
 
         }
@@ -174,7 +179,6 @@ public class Main {
         int hour = Integer.parseInt(hourMin[0]);
         int mins = Integer.parseInt(hourMin[1]);
         int hoursInMins = hour * 60;
-        int totalMins = hoursInMins + mins;
-        return totalMins;
+        return hoursInMins + mins;
     }
 }
