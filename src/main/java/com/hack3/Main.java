@@ -11,22 +11,31 @@ public class Main {
 
     public static class DatabaseTest {
         public String firstname;
-        public String[] locations;
+//        public String[] locations;
         public String lastname;
         private DatabaseTest () {};
         public DatabaseTest(String firstname, String[] locations, String lastname) {
             this.firstname = firstname;
-            this.locations = locations;
+//            this.locations = locations;
             this.lastname = lastname;
         };
         public String getFirstName() {
             return firstname;
         };
-        public String[] getLocations() {
-            return locations;
-        }
+//        public String[] getLocations() {
+//            return locations;
+//        }
         public String getLastName() {
             return lastname;
+        };
+        public void setFirstName(String firstname) {
+            this.firstname = firstname;
+        };
+//        public void setLocations(String[] locations) {
+//            this.locations = locations;
+//        }
+        public void setLastName(String lastname) {
+            this.lastname = lastname;
         };
     }
 
@@ -51,14 +60,12 @@ public class Main {
         System.out.println("Searching for: " + databaseUsername);*/
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users/itejas");
+        DatabaseReference ref = database.getReference("users/itejas/");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                /*Object user = dataSnapshot.getValue();
-                System.out.println(user);*/
                 DatabaseTest user = dataSnapshot.getValue(DatabaseTest.class);
-                System.out.println("Data: " + user.firstname);
+                System.out.println(user.firstname);
             }
 
             @Override
