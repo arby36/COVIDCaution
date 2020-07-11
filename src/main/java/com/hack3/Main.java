@@ -9,12 +9,14 @@ import com.google.firebase.database.*;
 
 public class Main {
 
-    public static class databaseTest {
+    public static class DatabaseTest {
         public String firstname;
         public String lastname;
-        public void databaseTest(String name, String surname) {
-            firstname = name;
-            lastname = surname;
+        public String[] locations;
+        public DatabaseTest(String firstname, String lastname, String[] locations) {
+            this.firstname = firstname;
+            this.lastname = lastname;
+            this.locations = locations;
         };
     }
 
@@ -32,13 +34,18 @@ public class Main {
         FirebaseApp.initializeApp(options);
         //End database initialization
         //Database Test//
+        Scanner databaseUsernameScanner = new Scanner(System.in);
+        System.out.println("Enter the username to be searched:");
+        String databaseUsername = databaseUsernameScanner.nextLine();
+        System.out.println("Searching for: " + databaseUsername);
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users/balex");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                databaseTest user = dataSnapshot.getValue(databaseTest.class);
-                System.out.println(user.firstname + " " + user.lastname);
+                DatabaseTest user = dataSnapshot.getValue(DatabaseTest.class);
+                System.out.println(user.toString());
             }
 
             @Override
@@ -47,8 +54,8 @@ public class Main {
             }
         });
 
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        Scanner confirmScanner = new Scanner(System.in);
+        confirmScanner.nextLine();
         //End Database Test//
 
         //Start Notification Analysis//
@@ -180,6 +187,16 @@ public class Main {
         int mins = Integer.parseInt(hourMin[1]);
         int hoursInMins = hour * 60;
         return hoursInMins + mins;
-    }
+    };
     //End Notification Analysis//
+    //Helper Functions//
+//    private static String scannerPrompt(String prompt) {
+//        Scanner promptScanner = new Scanner(System.in);
+//        System.out.println(prompt);
+//        String response = promptScanner.nextLine();
+//        System.out.println("You entered: " + response);
+//        promptScanner.close();
+//        return response;
+//    };
+    //End Helper Functions//
 }
