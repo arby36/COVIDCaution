@@ -64,8 +64,9 @@ public class Main {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DatabaseTest user = dataSnapshot.getValue(DatabaseTest.class);
-                System.out.println(user.firstname);
+                String firstname = (String) dataSnapshot.child("firstname").getValue();
+                String lastname = (String) dataSnapshot.child("lastname").getValue();
+                System.out.println(firstname + " " + lastname);
             }
 
             @Override
