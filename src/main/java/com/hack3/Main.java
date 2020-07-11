@@ -11,12 +11,22 @@ public class Main {
 
     public static class DatabaseTest {
         public String firstname;
-        public String lastname;
         public String[] locations;
-        public DatabaseTest(String firstname, String lastname, String[] locations) {
+        public String lastname;
+        private DatabaseTest () {};
+        public DatabaseTest(String firstname, String[] locations, String lastname) {
             this.firstname = firstname;
-            this.lastname = lastname;
             this.locations = locations;
+            this.lastname = lastname;
+        };
+        public String getFirstName() {
+            return firstname;
+        };
+        public String[] getLocations() {
+            return locations;
+        }
+        public String getLastName() {
+            return lastname;
         };
     }
 
@@ -34,18 +44,21 @@ public class Main {
         FirebaseApp.initializeApp(options);
         //End database initialization
         //Database Test//
-        Scanner databaseUsernameScanner = new Scanner(System.in);
+        /*Scanner databaseUsernameScanner = new Scanner(System.in);
         System.out.println("Enter the username to be searched:");
         String databaseUsername = databaseUsernameScanner.nextLine();
-        System.out.println("Searching for: " + databaseUsername);
+        databaseUsernameScanner.close();
+        System.out.println("Searching for: " + databaseUsername);*/
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users/balex");
+        DatabaseReference ref = database.getReference("users/itejas");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                /*Object user = dataSnapshot.getValue();
+                System.out.println(user);*/
                 DatabaseTest user = dataSnapshot.getValue(DatabaseTest.class);
-                System.out.println(user.toString());
+                System.out.println("Data: " + user.firstname);
             }
 
             @Override
@@ -56,6 +69,7 @@ public class Main {
 
         Scanner confirmScanner = new Scanner(System.in);
         confirmScanner.nextLine();
+        confirmScanner.close();
         //End Database Test//
 
         //Start Notification Analysis//
